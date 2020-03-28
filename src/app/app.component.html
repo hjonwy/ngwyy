@@ -5,12 +5,21 @@
         <div class="left">
           <h1>Music</h1>
           <ul nz-menu nzTheme="dark" nzMode="horizontal">
-
+            <li nz-menu-item>发现</li>
+            <li nz-menu-item>歌单</li>
           </ul>
         </div>
         <div class="right">
+          <div class="search">
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+              <input type="text" nz-input placeholder="歌单/歌手/歌曲" />
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+              <i nz-icon type="search"></i>
+            </ng-template>
+          </div>
           <div class="member">
-            <div class="no-login" *ngIf="!user else logined">
+            <div class="no-login">
               <ul nz-menu nzTheme="dark" nzMode="horizontal">
                 <li nz-submenu>
                   <div title>
