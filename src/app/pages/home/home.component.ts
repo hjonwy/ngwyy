@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { HomeService } from 'src/app/services/home.service';
-import { Banner } from 'src/app/services/data-types/common.types';
+import { Banner, HotTag, SongSheet, Singer } from 'src/app/services/data-types/common.types';
 import { NzCarouselComponent } from 'ng-zorro-antd';
+import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-home',
@@ -12,12 +14,18 @@ import { NzCarouselComponent } from 'ng-zorro-antd';
 export class HomeComponent implements OnInit {
   carouselActiveIndex = 0;
   banners: Banner[];
-
+  hotTags: HotTag[];
+  songSheetList: SongSheet[];
+  singers: Singer[];
+  
   @ViewChild(NzCarouselComponent, {static: true}) private nzCarousel: NzCarouselComponent;
 
-  constructor(private homeService: HomeService) {
-    this.homeService.getBanners().subscribe(banners=>{
+  constructor(private route: ActivatedRoute) {
+    this.route.data.pipe(map(res=>res.homeData)).subscribe(([banners, hotTags, songSheetList, singers]) => {
       this.banners = banners;
+      this.hotTags = hotTags;
+      this.songSheetList = songSheetList;
+      this.singers = singers;
     });
   }
 
@@ -25,7 +33,6 @@ export class HomeComponent implements OnInit {
   }
 
   onBeforeChange({ to }) {
-    console.log(to);
     this.carouselActiveIndex = to;
   }
 
